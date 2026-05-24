@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 //create a context for authentication
@@ -9,13 +9,13 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useLocalStorage("user", null);
 
   //set user data
-    const login=(userName)=>{
-        setUser({
-            name:userName,
-            avatar:'https://i.pravatar.cc/150?img=11',
-            address:'123 Badda,Dhaka,Bangladesh'
-        })
-    }
+  const login = (userName) => {
+    setUser({
+      name: userName,
+      avatar: "https://i.pravatar.cc/150?img=11",
+      address: "123 Badda,Dhaka,Bangladesh",
+    });
+  };
   //logout user
   const logout = () => {
     setUser(null);
@@ -27,3 +27,6 @@ export default function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
+//custom hook to use auth context
+export const useAuth = () => useContext(AuthContext);
