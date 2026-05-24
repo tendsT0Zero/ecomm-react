@@ -14,11 +14,11 @@ function ProductCard({product}) {
         <h3 className="font-semibold text-gray-800 truncate">
           {product.title}
         </h3>
-        <p className="text-blue-600 font-bold">${product.price}</p>
+        <p className="text-teal-900 font-bold">${product.price}</p>
       </div>
       <button
         onClick={() => addToCart(product)}
-        className="mt-4 bg-blue-600 text-white py-2 rounded w-full hover:bg-blue-700"
+        className="mt-4 bg-teal-600 text-white py-2 rounded w-full hover:bg-teal-700"
       >
         Add to Cart
       </button>
