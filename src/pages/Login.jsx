@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
 
 function Login() {
   const [name, setName] = useState("");
-  const { login } = useAuth();
+  // const { login } = useAuth();
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const handleLogin = (e) => {
     e.preventDefault();
     if (name.trim()) {
-      login(name);
+      // login(name);
+      dispatch(login(name));
       navigate("/");
     }
   };

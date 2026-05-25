@@ -12,11 +12,14 @@ const authSlice = createSlice({
   reducers: {
     //login
     login: (state, action) => {
-      state.user = action.payload;
-      window.localStorage.setItem(
-        "ecommerce_user",
-        JSON.stringify(action.payload),
-      );
+      //create dummy data for user
+      const dummyUser = {
+        name: action.payload,
+        avatar: `https://i.pravatar.cc/150?u=${action.payload}`,
+        address: "123 Main St, Anytown, USA",
+      };
+      state.user = dummyUser;
+      window.localStorage.setItem("ecommerce_user", JSON.stringify(dummyUser));
     },
 
     //logout

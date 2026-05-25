@@ -2,15 +2,23 @@ import React from "react";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateCartItemQuantity,
+  removeItemFromCart,
+  clearCart,
+} from "../store/cartSlice";
 
 function Cart() {
-  const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
-  const { user } = useAuth();
+  // const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
+  // const { user } = useAuth();
 
-  const totalPrice = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0,
-  );
+  const cart = useSelector((state) => state.cart.cart);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
+  const totalPrice =
+    cart?.reduce((acc, item) => acc + item.price * item.quantity, 0) || 0;
 
   if (!user) {
     return (
@@ -59,14 +67,28 @@ function Cart() {
 
             <div className="flex items-center gap-4">
               <button
-                onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                onClick={() =>
+                  dispatch(
+                    updateCartItemQuantity({
+                      id: item.id,
+                      quantity: Math.max(1, item.quantity - 1),
+                    }),
+                  )
+                }
                 className="bg-gray-200 px-3 py-1 rounded"
               >
                 -
               </button>
               <span>{item.quantity}</span>
               <button
-                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                onClick={() =>
+                  dispatch(
+                    updateCartItemQuantity({
+                      id: item.id,
+                      quantity: item.quantity + 1,
+                    }),
+                  )
+                }
                 className="bg-gray-200 px-3 py-1 rounded"
               >
                 +
@@ -77,7 +99,7 @@ function Cart() {
               ${(item.price * item.quantity).toFixed(2)}
             </p>
             <button
-              onClick={() => removeFromCart(item.id)}
+              onClick={() => dispatch(removeItemFromCart({ id: item.id }))}
               className="text-red-500 font-bold"
             >
               X
@@ -88,7 +110,7 @@ function Cart() {
 
       <div className="flex justify-between items-center mt-6">
         <button
-          onClick={clearCart}
+          onClick={() => dispatch(clearCart())}
           className="text-red-500 border border-red-500 px-4 py-2 rounded"
         >
           Clear Cart
